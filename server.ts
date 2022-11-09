@@ -1,15 +1,24 @@
-require("dotenv").config();
-const express = require("express");
-const app = express();
-const path = require("path");
-const { logger } = require("./middleware/logger");
-const errorHandler = require("./middleware/errorHandler");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
-const connectDB = require("./config/dbConnect");
-const mongoose = require("mongoose");
-const { logEvents } = require("./middleware/logger");
+import dotenv from "dotenv";
+import express, { Application, Request, Response } from "express";
+import path from "path";
+import { logger, logEvents } from "./middleware/logger";
+import { errorHandler } from "./middleware/errorHandler";
+
+import cookieParser from "cookie-parser";
+import cors from "cors";
+
+import { corsOptions } from "./config/corsOptions";
+
+import mongoose from "mongoose";
+import { connectDB } from "./config/dbConnect";
+
+// Routes
+import root from "./routes/root";
+import userRoutes from "./routes/userRoutes";
+
+const app: Application = express();
+
+dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
@@ -23,9 +32,10 @@ app.use(cors(corsOptions));
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
-app.use("/", require("./routes/root"));
+app.use("/", root);
+app.use("/users", userRoutes);
 
-app.all("*", (req, res) => {
+app.all("*", (req: Request, res: Response) => {
   res.status(404);
   if (req.accepts("html")) {
     res.sendFile(path.join(__dirname, "views/404.html"));
@@ -43,7 +53,7 @@ mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`✔ Server running on port ${PORT}`));
 });
 
-mongoose.connection.on("error", (err) => {
+mongoose.connection.on("error", (err: any) => {
   console.log(err);
   logEvents(
     `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,

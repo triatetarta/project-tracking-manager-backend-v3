@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+import mongoose from "mongoose";
+import { IUser } from "./interfaces/IUser";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -12,10 +12,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: [true, "Please provide email"],
-    validate: {
-      validator: validator.isEmail,
-      message: "Please provide valid email",
-    },
   },
   password: {
     type: String,
@@ -59,4 +55,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
+
+export default User;

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+import mongoose from "mongoose";
+import { ITicket } from "./interfaces/ITIcket";
 
 const TicketSchema = new mongoose.Schema(
   {
@@ -45,10 +45,6 @@ const TicketSchema = new mongoose.Schema(
 //   await this.model("Comment").deleteMany({ ticket: this._id });
 // });
 
-TicketSchema.plugin(AutoIncrement, {
-  inc_field: "ticket",
-  id: "ticketNums",
-  start_seq: 500,
-});
+const Ticket = mongoose.model<ITicket>("Ticket", TicketSchema);
 
-module.exports = mongoose.model("Ticket", TicketSchema);
+export default Ticket;
