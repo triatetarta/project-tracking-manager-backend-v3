@@ -51,21 +51,36 @@ const createNewUser = asyncHandler(async (req: Request, res: Response) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req: Request, res: Response) => {
-  const { id, email, name, jobTitle, team, department, location, password } =
+  const { id, jobTitle, team, department, location, password, roles, active } =
     req.body;
 
-  const user = (await User.findOne({ _id: id })) as IUser;
+  if (
+    !id ||
+    !jobTitle ||
+    !team ||
+    !department ||
+    !location ||
+    !Array.isArray(roles) ||
+    !roles.length ||
+    typeof active !== "boolean"
+  ) {
+    res
+      .status(400)
+      .json({ message: "All fields except password are required" });
+  }
+
+  const user = (await User.findById(id).exec()) as IUser;
 
   if (!user) {
     res.status(400).json({ message: "User not found" });
   }
 
-  user.email = email;
-  user.name = name;
   user.jobTitle = jobTitle;
   user.team = team;
   user.department = department;
   user.location = location;
+  user.roles = roles;
+  user.active = active;
 
   if (password) {
     user.password = await bcrypt.hash(password, 10);
