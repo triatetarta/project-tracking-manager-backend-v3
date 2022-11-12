@@ -15,6 +15,7 @@ import { connectDB } from "./config/dbConnect";
 // Routes
 import root from "./routes/root";
 import userRoutes from "./routes/userRoutes";
+import ticketRoutes from "./routes/ticketRoutes";
 
 const app: Application = express();
 
@@ -34,6 +35,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/", root);
 app.use("/users", userRoutes);
+app.use("/tickets", ticketRoutes);
 
 app.all("*", (req: Request, res: Response) => {
   res.status(404);

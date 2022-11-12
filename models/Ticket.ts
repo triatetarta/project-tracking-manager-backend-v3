@@ -8,6 +8,10 @@ const TicketSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    title: {
+      type: String,
+      required: [true, "Please select the ticket's title"],
+    },
     project: {
       type: String,
       required: [true, "Please select the project's title"],
