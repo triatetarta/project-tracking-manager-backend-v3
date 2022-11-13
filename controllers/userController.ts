@@ -21,9 +21,9 @@ const getAllUsers = async (req: Request, res: Response) => {
 // @route POST /users
 // @access Private
 const createNewUser = async (req: Request, res: Response) => {
-  const { email, name, password, roles } = req.body;
+  const { email, name, password } = req.body;
 
-  if (!name || !password || !Array.isArray(roles) || !roles.length) {
+  if (!name || !password) {
     res.status(400).json({ message: "All fields are required" });
   }
 
@@ -32,6 +32,9 @@ const createNewUser = async (req: Request, res: Response) => {
   if (emailAlreadyExists) {
     res.status(409).json({ message: "Email already exists" });
   }
+
+  const isFirstAccount = (await User.countDocuments({})) === 0;
+  const roles = isFirstAccount ? ["Admin"] : ["Employee"];
 
   const hashedPwd = await bcrypt.hash(password, 10);
 

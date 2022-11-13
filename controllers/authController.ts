@@ -3,6 +3,8 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 // @desc Login
 // @route POST /auth
 // @access Public
@@ -42,9 +44,9 @@ const login = async (req: Request, res: Response) => {
 
   // Create secure cookie with refresh token
   res.cookie("jwt", refreshToken, {
-    httpOnly: true, //accessible only by web server
-    secure: process.env.NODE_ENV === "production", //https
-    sameSite: "none", //cross-site cookie
+    httpOnly: true,
+    secure: !isDevelopment,
+    sameSite: isDevelopment ? "lax" : "none", //cross-site cookie
     maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
 
@@ -98,8 +100,8 @@ const logout = (req: Request, res: Response) => {
   if (!cookies?.jwt) return res.sendStatus(204); //No content
   res.clearCookie("jwt", {
     httpOnly: true,
-    sameSite: "none",
-    secure: process.env.NODE_ENV === "production",
+    secure: !isDevelopment,
+    sameSite: isDevelopment ? "lax" : "none",
   });
   res.json({ message: "Cookie cleared" });
 };
