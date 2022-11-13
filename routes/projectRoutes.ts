@@ -5,8 +5,11 @@ import {
   getAllProjects,
   updateProject,
 } from "../controllers/projectController";
+import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = express.Router();
+
+router.use(verifyJWT);
 
 router
   .route("/")

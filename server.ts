@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import "express-async-errors";
 import express, { Application, Request, Response } from "express";
 import path from "path";
 import { logger, logEvents } from "./middleware/logger";
@@ -17,6 +18,7 @@ import root from "./routes/root";
 import userRoutes from "./routes/userRoutes";
 import ticketRoutes from "./routes/ticketRoutes";
 import projectRoutes from "./routes/projectRoutes";
+import authRoutes from "./routes/authRoutes";
 
 const app: Application = express();
 
@@ -28,13 +30,14 @@ connectDB();
 
 app.use(logger);
 
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/", root);
+app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/tickets", ticketRoutes);
 app.use("/projects", projectRoutes);

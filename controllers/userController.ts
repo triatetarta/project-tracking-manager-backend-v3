@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import Ticket from "../models/Ticket";
-import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import { IUser } from "../models/interfaces/IUser";
 
 // @desc Get all users
 // @route GET /users
 // @access Private
-const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response) => {
   const users = await User.find().select("-password").lean();
 
   if (!users?.length) {
@@ -16,12 +15,12 @@ const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   }
 
   res.json(users);
-});
+};
 
 // @desc Create new user
 // @route POST /users
 // @access Private
-const createNewUser = asyncHandler(async (req: Request, res: Response) => {
+const createNewUser = async (req: Request, res: Response) => {
   const { email, name, password, roles } = req.body;
 
   if (!name || !password || !Array.isArray(roles) || !roles.length) {
@@ -45,12 +44,12 @@ const createNewUser = asyncHandler(async (req: Request, res: Response) => {
   } else {
     res.status(400).json({ message: "Invalid user data received" });
   }
-});
+};
 
 // @desc Update a user
 // @route PATCH /users
 // @access Private
-const updateUser = asyncHandler(async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response) => {
   const { id, jobTitle, team, department, location, password, roles, active } =
     req.body;
 
@@ -89,12 +88,12 @@ const updateUser = asyncHandler(async (req: Request, res: Response) => {
   const updatedUser = await user.save();
 
   res.json({ message: `${updatedUser.name} updated` });
-});
+};
 
 // @desc Delete a user
 // @route Delete /users
 // @access Private
-const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   if (!id) {
@@ -118,6 +117,6 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const reply = `User ${result.name} with ID ${result._id} deleted`;
 
   res.json(reply);
-});
+};
 
 export { getAllUsers, createNewUser, updateUser, deleteUser };

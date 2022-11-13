@@ -6,6 +6,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
-  }
+    "outDir": "./dist",
+    "allowJs": true,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./**/*.ts"],
+  "files": ["global.d.ts"]
 }

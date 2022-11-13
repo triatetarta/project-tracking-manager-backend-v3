@@ -5,8 +5,11 @@ import {
   updateTicket,
   deleteTicket,
 } from "../controllers/ticketController";
+import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = express.Router();
+
+router.use(verifyJWT);
 
 router
   .route("/")

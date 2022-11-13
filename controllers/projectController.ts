@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import Project from "../models/Project";
-import asyncHandler from "express-async-handler";
 import { IProject } from "../models/interfaces/IProject";
 
 // @desc Get all projects
 // @route GET /projects
 // @access Private
-const getAllProjects = asyncHandler(async (req: Request, res: Response) => {
+const getAllProjects = async (req: Request, res: Response) => {
   const projects = await Project.find().lean();
 
   if (!projects.length) {
@@ -14,12 +13,12 @@ const getAllProjects = asyncHandler(async (req: Request, res: Response) => {
   }
 
   res.json(projects);
-});
+};
 
 // @desc Create new project
 // @route POST /projects
 // @access Private
-const createProject = asyncHandler(async (req: Request, res: Response) => {
+const createProject = async (req: Request, res: Response) => {
   const { user, title, description, status } = req.body;
 
   if (!user || !title || !description || !status) {
@@ -47,12 +46,12 @@ const createProject = asyncHandler(async (req: Request, res: Response) => {
   } else {
     res.status(400).json({ message: "Invalid project data received" });
   }
-});
+};
 
 // @desc Update a project
 // @route PATCH /projects
 // @access Private
-const updateProject = asyncHandler(async (req: Request, res: Response) => {
+const updateProject = async (req: Request, res: Response) => {
   const { id, title, description, status } = req.body;
 
   if (!id || !title || !description || !status) {
@@ -81,12 +80,12 @@ const updateProject = asyncHandler(async (req: Request, res: Response) => {
   const updatedProject = await project?.save();
 
   res.json(`'${updatedProject?.title}' updated`);
-});
+};
 
 // @desc Delete a project
 // @route DELETE /projects
 // @access Private
-const deleteProject = asyncHandler(async (req: Request, res: Response) => {
+const deleteProject = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   if (!id) {
@@ -104,6 +103,6 @@ const deleteProject = asyncHandler(async (req: Request, res: Response) => {
   const reply = `Project ${result.title} with ID ${result.id} deleted`;
 
   res.json(reply);
-});
+};
 
 export { createProject, getAllProjects, updateProject, deleteProject };

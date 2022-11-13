@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import Ticket from "../models/Ticket";
-import asyncHandler from "express-async-handler";
 import { ITicket } from "../models/interfaces/ITIcket";
 
 // @desc Get all tickets
 // @route GET /tickets
 // @access Private
-const getAllTickets = asyncHandler(async (req: Request, res: Response) => {
+const getAllTickets = async (req: Request, res: Response) => {
   const tickets = await Ticket.find().lean();
 
   if (!tickets.length) {
@@ -14,12 +13,12 @@ const getAllTickets = asyncHandler(async (req: Request, res: Response) => {
   }
 
   res.json(tickets);
-});
+};
 
 // @desc Create new ticket
 // @route POST /tickets
 // @access Private
-const createTicket = asyncHandler(async (req: Request, res: Response) => {
+const createTicket = async (req: Request, res: Response) => {
   const { user, title, project, description, status } = req.body;
 
   if (!user || !title || !project || !description || !status) {
@@ -48,12 +47,12 @@ const createTicket = asyncHandler(async (req: Request, res: Response) => {
   } else {
     res.status(400).json({ message: "Invalid ticket data received" });
   }
-});
+};
 
 // @desc Update a ticket
 // @route PATCH /tickets
 // @access Private
-const updateTicket = asyncHandler(async (req: Request, res: Response) => {
+const updateTicket = async (req: Request, res: Response) => {
   const { id, title, description, project, status } = req.body;
 
   if (!id || !title || !description || !project || !status) {
@@ -83,12 +82,12 @@ const updateTicket = asyncHandler(async (req: Request, res: Response) => {
   const updatedTicket = await ticket?.save();
 
   res.json(`'${updatedTicket?.title}' updated`);
-});
+};
 
 // @desc Delete a ticket
 // @route DELETE /tickets
 // @access Private
-const deleteTicket = asyncHandler(async (req: Request, res: Response) => {
+const deleteTicket = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   if (!id) {
@@ -106,6 +105,6 @@ const deleteTicket = asyncHandler(async (req: Request, res: Response) => {
   const reply = `Ticket ${result.title} with ID ${result.id} deleted`;
 
   res.json(reply);
-});
+};
 
 export { createTicket, getAllTickets, updateTicket, deleteTicket };
