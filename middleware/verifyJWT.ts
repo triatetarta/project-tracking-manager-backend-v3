@@ -18,8 +18,11 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         res.status(403).json({ message: "Forbidden" });
       }
 
+      req.id = decoded.UserInfo.id;
+      req.name = decoded.UserInfo.name;
       req.email = decoded.UserInfo.email;
       req.roles = decoded.UserInfo.roles;
+      req.image = decoded.UserInfo.image;
       next();
     }
   );

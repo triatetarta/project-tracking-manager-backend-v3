@@ -18,6 +18,7 @@ const ProjectSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      required: false,
       enum: ["open", "closed"],
       default: "open",
     },

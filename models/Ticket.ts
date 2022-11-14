@@ -22,7 +22,7 @@ const TicketSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
+      required: false,
       enum: ["to do", "in progress", "closed"],
       default: "to do",
     },
