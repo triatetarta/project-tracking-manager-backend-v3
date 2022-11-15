@@ -54,8 +54,8 @@ const createTicket = async (req: Request, res: Response) => {
 const updateTicket = async (req: Request, res: Response) => {
   const { id, title, description, project, status } = req.body;
 
-  if (!id || !title || !description || !project || !status) {
-    res.status(400).json({ message: "All fields are required" });
+  if (!id) {
+    res.status(400).json({ message: "Ticket ID is required" });
   }
 
   const ticket = (await Ticket.findById(id).exec()) as ITicket;
