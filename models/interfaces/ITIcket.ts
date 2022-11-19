@@ -4,6 +4,7 @@ export interface ITicket extends mongoose.Document {
   [x: string]: any;
   _id?: mongoose.Types.ObjectId | string;
   user: mongoose.Types.ObjectId;
+  assignee?: mongoose.Types.ObjectId;
   title: string;
   project: string;
   description: string;

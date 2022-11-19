@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
-import Comment from "./Comment";
-import { IComment } from "./interfaces/IComment";
 import { ITicket } from "./interfaces/ITIcket";
 
 const TicketSchema = new mongoose.Schema<ITicket>(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    assignee: {
+      type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
     },

@@ -15,9 +15,9 @@ const getAllTickets = async (req: Request, res: Response) => {
 // @route POST /tickets
 // @access Private
 const createTicket = async (req: Request, res: Response) => {
-  const { user, title, project, description } = req.body;
+  const { user, title, project, description, assignee } = req.body;
 
-  if (!user || !title || !project || !description) {
+  if (!user || !title || !project || !description || !assignee) {
     res.status(400).json({ message: "All fields are required" });
   }
 
@@ -35,6 +35,7 @@ const createTicket = async (req: Request, res: Response) => {
     title,
     project,
     description,
+    assignee,
   });
 
   if (ticket) {
@@ -48,7 +49,7 @@ const createTicket = async (req: Request, res: Response) => {
 // @route PATCH /tickets
 // @access Private
 const updateTicket = async (req: Request, res: Response) => {
-  const { id, title, description, project, status } = req.body;
+  const { id, title, description, project, status, assignee } = req.body;
 
   if (!id) {
     res.status(400).json({ message: "Ticket ID is required" });
@@ -73,6 +74,7 @@ const updateTicket = async (req: Request, res: Response) => {
   ticket.description = description;
   ticket.project = project;
   ticket.status = status;
+  ticket.assignee = assignee;
 
   const updatedTicket = await ticket?.save();
 
