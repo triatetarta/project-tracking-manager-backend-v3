@@ -8,10 +8,6 @@ import { IProject } from "../models/interfaces/IProject";
 const getAllProjects = async (req: Request, res: Response) => {
   const projects = await Project.find().lean();
 
-  if (!projects.length) {
-    res.status(400).json({ message: "No projects found" });
-  }
-
   res.json(projects);
 };
 

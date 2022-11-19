@@ -45,10 +45,6 @@ const getSingleTicketComments = async (req: Request, res: Response) => {
 
   const comments = await Comment.find({ ticket: ticketId });
 
-  if (!comments.length) {
-    res.status(400).json({ message: "No comments found" });
-  }
-
   res.json(comments);
 };
 

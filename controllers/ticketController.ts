@@ -8,10 +8,6 @@ import { ITicket } from "../models/interfaces/ITIcket";
 const getAllTickets = async (req: Request, res: Response) => {
   const tickets = await Ticket.find().lean();
 
-  if (!tickets.length) {
-    res.status(400).json({ message: "No tickets found" });
-  }
-
   res.json(tickets);
 };
 

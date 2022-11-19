@@ -10,10 +10,6 @@ import { IUser } from "../models/interfaces/IUser";
 const getAllUsers = async (req: Request, res: Response) => {
   const users = await User.find().select("-password").lean();
 
-  if (!users?.length) {
-    res.status(400).json({ message: "No users found" });
-  }
-
   res.json(users);
 };
 
