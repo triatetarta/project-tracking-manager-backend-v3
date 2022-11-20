@@ -49,7 +49,7 @@ const createNewUser = async (req: Request, res: Response) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req: Request, res: Response) => {
-  const { id, jobTitle, team, department, location, password, roles, active } =
+  const { id, jobTitle, team, department, location, password, roles } =
     req.body;
 
   if (
@@ -59,8 +59,7 @@ const updateUser = async (req: Request, res: Response) => {
     !department ||
     !location ||
     !Array.isArray(roles) ||
-    !roles.length ||
-    typeof active !== "boolean"
+    !roles.length
   ) {
     res
       .status(400)
@@ -78,7 +77,6 @@ const updateUser = async (req: Request, res: Response) => {
   user.department = department;
   user.location = location;
   user.roles = roles;
-  user.active = active;
 
   if (password) {
     user.password = await bcrypt.hash(password, 10);
