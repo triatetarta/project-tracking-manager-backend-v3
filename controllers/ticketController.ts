@@ -91,17 +91,15 @@ const deleteTicket = async (req: Request, res: Response) => {
     res.status(400).json({ message: "Ticket ID is required" });
   }
 
-  const ticket = (await Ticket.findById(id).exec()) as ITicket;
+  const ticket = (await Ticket.findOne({ _id: id })) as ITicket;
 
   if (!ticket) {
     res.status(400).json({ message: "Ticket not found" });
   }
 
-  const result = await ticket.remove();
+  await ticket.remove();
 
-  const reply = `Ticket ${result.title} with ID ${result.id} deleted`;
-
-  res.json(reply);
+  res.status(200).json({ message: "Ticket has been removed" });
 };
 
 export { createTicket, getAllTickets, updateTicket, deleteTicket };
