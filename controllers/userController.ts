@@ -3,6 +3,7 @@ import User from "../models/User";
 import Ticket from "../models/Ticket";
 import bcrypt from "bcrypt";
 import { IUser } from "../models/interfaces/IUser";
+import cloudinary from "../config/cloudinary";
 
 // @desc Get all users
 // @route GET /users
@@ -43,6 +44,88 @@ const createNewUser = async (req: Request, res: Response) => {
   } else {
     res.status(400).json({ message: "Invalid user data received" });
   }
+};
+
+// @desc Update a user's profile pic
+// @route PATCH /users/uploadImage
+// @access Private
+const uploadImage = async (req: Request, res: Response) => {
+  const { id, image } = req.body;
+
+  if (!image) {
+    res.status(400).json({ message: "Please select an image" });
+  }
+
+  const user = (await User.findOne({ _id: id }).exec()) as IUser;
+
+  if (!user) {
+    res.status(400).json({ message: "User not found" });
+  }
+
+  let updatedUser;
+
+  if (user.image !== "") {
+    await cloudinary.uploader.destroy(user.image, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("Image has been removed from cloudinary");
+    });
+
+    const uploadedImage = await cloudinary.uploader.upload(
+      image,
+      {
+        upload_preset: "unsigned_upload",
+        allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
+      },
+      (err, result) => {
+        if (err) {
+          res
+            .status(400)
+            .json({ message: "Something went wrong with uploading the image" });
+        }
+
+        console.log("image uploaded to cloudinary");
+      }
+    );
+
+    const updateUser = await User.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      { image: uploadedImage.public_id },
+      { new: true, runValidators: true }
+    );
+
+    updatedUser = updateUser;
+  } else {
+    const uploadedImage = await cloudinary.uploader.upload(
+      image,
+      {
+        upload_preset: "unsigned_upload",
+        allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
+      },
+      (err, result) => {
+        if (err) {
+          res
+            .status(400)
+            .json({ message: "Something went wrong with uploading the image" });
+        }
+
+        console.log("image uploaded to cloudinary");
+      }
+    );
+
+    const updateUser = await User.findOneAndUpdate(
+      { _id: id },
+      { image: uploadedImage.public_id },
+      { new: true, runValidators: true }
+    );
+
+    updatedUser = updateUser;
+  }
+
+  res.status(200).json({ message: "Image successfully uploaded" });
 };
 
 // @desc Update a user
@@ -116,4 +199,4 @@ const deleteUser = async (req: Request, res: Response) => {
   res.json(reply);
 };
 
-export { getAllUsers, createNewUser, updateUser, deleteUser };
+export { getAllUsers, createNewUser, updateUser, deleteUser, uploadImage };
