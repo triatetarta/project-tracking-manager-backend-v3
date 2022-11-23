@@ -2,20 +2,20 @@ import { Request, Response } from "express";
 import Workflow from "../models/Workflow";
 import { IWorkflow } from "../models/interfaces/IWorkflow";
 
-// @desc Get all workflows
+// @desc Get all workflow status
 // @route GET /workflows
 // @access Private
-const getAllWorkflows = async (req: Request, res: Response) => {
+const getAllWorkflowStatus = async (req: Request, res: Response) => {
   const workflows = await Workflow.find().lean();
 
   res.json(workflows);
 };
 
-// @desc Create new workflow
+// @desc Create new workflow status
 // @route POST /workflows
 // @access Private
-const createWorkflow = async (req: Request, res: Response) => {
-  const { user, title, description, color } = req.body;
+const createWorkflowStatus = async (req: Request, res: Response) => {
+  const { user, title, description, category } = req.body;
 
   if (!user || !title || !description) {
     res.status(400).json({ message: "All fields are required" });
@@ -34,7 +34,7 @@ const createWorkflow = async (req: Request, res: Response) => {
     user,
     title,
     description,
-    color,
+    category,
   });
 
   if (workflow) {
@@ -44,13 +44,13 @@ const createWorkflow = async (req: Request, res: Response) => {
   }
 };
 
-// @desc Update a workflow
+// @desc Update a workflow status
 // @route PATCH /workflows
 // @access Private
-const updateWorkflow = async (req: Request, res: Response) => {
-  const { id, title, description, color } = req.body;
+const updateWorkflowStatus = async (req: Request, res: Response) => {
+  const { id, title, description, category } = req.body;
 
-  if (!id || !title || !description || !color) {
+  if (!id || !title || !description || !category) {
     res.status(400).json({ message: "All fields are required" });
   }
 
@@ -71,17 +71,17 @@ const updateWorkflow = async (req: Request, res: Response) => {
 
   workflow.title = title;
   workflow.description = description;
-  workflow.color = color;
+  workflow.category = category;
 
   const updatedWorkflow = await workflow?.save();
 
   res.json(`'${updatedWorkflow?.title}' updated`);
 };
 
-// @desc Delete a workflow
+// @desc Delete a workflow status
 // @route DELETE /workflows
 // @access Private
-const deleteWorkflow = async (req: Request, res: Response) => {
+const deleteWorkflowStatus = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   if (!id) {
@@ -101,4 +101,9 @@ const deleteWorkflow = async (req: Request, res: Response) => {
   res.json(reply);
 };
 
-export { getAllWorkflows, createWorkflow, updateWorkflow, deleteWorkflow };
+export {
+  getAllWorkflowStatus,
+  createWorkflowStatus,
+  updateWorkflowStatus,
+  deleteWorkflowStatus,
+};

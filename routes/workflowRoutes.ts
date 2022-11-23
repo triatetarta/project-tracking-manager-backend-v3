@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  getAllWorkflows,
-  createWorkflow,
-  updateWorkflow,
-  deleteWorkflow,
+  getAllWorkflowStatus,
+  createWorkflowStatus,
+  updateWorkflowStatus,
+  deleteWorkflowStatus,
 } from "../controllers/workflowController";
 import { verifyJWT } from "../middleware/verifyJWT";
 
@@ -13,9 +13,9 @@ router.use(verifyJWT);
 
 router
   .route("/")
-  .get(getAllWorkflows)
-  .post(createWorkflow)
-  .patch(updateWorkflow)
-  .delete(deleteWorkflow);
+  .get(getAllWorkflowStatus)
+  .post(createWorkflowStatus)
+  .patch(updateWorkflowStatus)
+  .delete(deleteWorkflowStatus);
 
 export default router;

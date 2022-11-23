@@ -16,11 +16,11 @@ const WorkflowSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter a description"],
     },
-    color: {
+    category: {
       type: String,
       required: false,
-      enum: ["#2074e3", "#f6b73e", "#11a865"],
-      default: "#2074e3",
+      enum: ["to do", "in progress", "closed"],
+      default: "to do",
     },
   },
   {
