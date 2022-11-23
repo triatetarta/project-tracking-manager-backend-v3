@@ -15,7 +15,7 @@ const getAllProjects = async (req: Request, res: Response) => {
 // @route POST /projects
 // @access Private
 const createProject = async (req: Request, res: Response) => {
-  const { user, title, description } = req.body;
+  const { user, title, description, color } = req.body;
 
   if (!user || !title || !description) {
     res.status(400).json({ message: "All fields are required" });
@@ -34,6 +34,7 @@ const createProject = async (req: Request, res: Response) => {
     user,
     title,
     description,
+    color,
   });
 
   if (project) {

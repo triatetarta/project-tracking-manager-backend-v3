@@ -20,6 +20,7 @@ import ticketRoutes from "./routes/ticketRoutes";
 import projectRoutes from "./routes/projectRoutes";
 import authRoutes from "./routes/authRoutes";
 import commentRoutes from "./routes/commentRoutes";
+import workflowRoutes from "./routes/workflowRoutes";
 
 const app: Application = express();
 
@@ -43,6 +44,7 @@ app.use("/users", userRoutes);
 app.use("/tickets", ticketRoutes);
 app.use("/projects", projectRoutes);
 app.use("/comments", commentRoutes);
+app.use("/workflows", workflowRoutes);
 
 app.all("*", (req: Request, res: Response) => {
   res.status(404);

@@ -5,4 +5,5 @@ export interface IProject extends mongoose.Document {
   title: string;
   description: string;
   status: string;
+  color: string;
 }

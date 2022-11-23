@@ -16,6 +16,11 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter a description"],
     },
+    color: {
+      type: String,
+      required: false,
+      default: "#8c4bff",
+    },
     status: {
       type: String,
       required: false,
