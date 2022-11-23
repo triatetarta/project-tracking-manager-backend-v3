@@ -26,10 +26,9 @@ const TicketSchema = new mongoose.Schema<ITicket>(
       required: [true, "Please enter a description"],
     },
     status: {
-      type: String,
-      required: false,
-      enum: ["to do", "in progress", "closed"],
-      default: "to do",
+      type: mongoose.Types.ObjectId,
+      ref: "Workflow",
+      required: true,
     },
     numOfComments: {
       type: Number,

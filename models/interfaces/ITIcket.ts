@@ -8,7 +8,7 @@ export interface ITicket extends mongoose.Document {
   title: string;
   project: string;
   description: string;
-  status: "to do" | "in progress" | "closed";
+  status: mongoose.Types.ObjectId;
   numOfComments: number;
   createdAt: Date;
   updatedAt: Date;

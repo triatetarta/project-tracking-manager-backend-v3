@@ -15,9 +15,9 @@ const getAllTickets = async (req: Request, res: Response) => {
 // @route POST /tickets
 // @access Private
 const createTicket = async (req: Request, res: Response) => {
-  const { user, title, project, description, assignee } = req.body;
+  const { user, title, project, description, assignee, status } = req.body;
 
-  if (!user || !title || !project || !description || !assignee) {
+  if (!user || !title || !project || !description || !assignee || !status) {
     res.status(400).json({ message: "All fields are required" });
   }
 
@@ -36,6 +36,7 @@ const createTicket = async (req: Request, res: Response) => {
     project,
     description,
     assignee,
+    status,
   });
 
   if (ticket) {
