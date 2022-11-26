@@ -31,7 +31,7 @@ const createNewUser = async (req: Request, res: Response) => {
   }
 
   const isFirstAccount = (await User.countDocuments({})) === 0;
-  const roles = isFirstAccount ? ["Admin"] : ["Employee"];
+  const roles = isFirstAccount ? ["Admin", "Manager"] : ["Employee"];
 
   const hashedPwd = await bcrypt.hash(password, 10);
 
