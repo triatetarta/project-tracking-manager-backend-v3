@@ -1,1 +1,4 @@
-export const allowedOrigins = ["http://localhost:3000"];
+export const allowedOrigins = [
+  "http://localhost:3000",
+  "https://serene-cat-43b4e5.netlify.app",
+];
