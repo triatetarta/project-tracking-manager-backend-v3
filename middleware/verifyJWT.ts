@@ -19,10 +19,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
       }
 
       req.id = decoded.UserInfo.id;
-      req.name = decoded.UserInfo.name;
-      req.email = decoded.UserInfo.email;
       req.roles = decoded.UserInfo.roles;
-      req.image = decoded.UserInfo.image;
       next();
     }
   );
