@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  tutorialed: {
+    type: Boolean,
+    default: false,
+  },
   jobTitle: {
     type: String,
     required: false,

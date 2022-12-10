@@ -16,4 +16,5 @@ export interface IUser extends mongoose.Document {
   department: string;
   location: string;
   image: string;
+  tutorialed: boolean;
 }

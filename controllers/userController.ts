@@ -132,14 +132,23 @@ const uploadImage = async (req: Request, res: Response) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req: Request, res: Response) => {
-  const { id, jobTitle, team, department, location, password, roles } =
-    req.body;
+  const {
+    id,
+    jobTitle,
+    team,
+    department,
+    location,
+    password,
+    roles,
+    tutorialed,
+  } = req.body;
 
   if (
     !id ||
     !jobTitle ||
     !team ||
     !department ||
+    !tutorialed ||
     !location ||
     !Array.isArray(roles) ||
     !roles.length
@@ -160,6 +169,7 @@ const updateUser = async (req: Request, res: Response) => {
   user.department = department;
   user.location = location;
   user.roles = roles;
+  user.tutorialed = tutorialed;
 
   if (password) {
     user.password = await bcrypt.hash(password, 10);
