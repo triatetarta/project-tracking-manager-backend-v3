@@ -143,19 +143,8 @@ const updateUser = async (req: Request, res: Response) => {
     tutorialed,
   } = req.body;
 
-  if (
-    !id ||
-    !jobTitle ||
-    !team ||
-    !department ||
-    !tutorialed ||
-    !location ||
-    !Array.isArray(roles) ||
-    !roles.length
-  ) {
-    res
-      .status(400)
-      .json({ message: "All fields except password are required" });
+  if (!id) {
+    res.status(400).json({ message: "Id is required" });
   }
 
   const user = (await User.findById(id).exec()) as IUser;

@@ -6,15 +6,16 @@ import {
   updateUser,
   uploadImage,
 } from "../controllers/userController";
+import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(getAllUsers)
+  .get(verifyJWT, getAllUsers)
   .post(createNewUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+  .patch(verifyJWT, updateUser)
+  .delete(verifyJWT, deleteUser);
 
 router.route("/uploadImage").patch(uploadImage);
 
